@@ -1,0 +1,30 @@
+{
+  "name": "dj-josepe-project",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "DJ Josepe Full Stack Project",
+  "scripts": {
+    "start": "node start.js",
+    "dev": "concurrently \"pnpm run backend\" \"pnpm run frontend\"",
+    "backend": "pnpm --filter dj-josepe-backend run dev",
+    "frontend": "pnpm --filter dj-josepe-frontend run dev",
+    "install:all": "pnpm install --recursive"
+  },
+  "keywords": [
+    "dj",
+    "nextjs",
+    "express",
+    "mysql"
+  ],
+  "author": "kiko",
+  "license": "ISC",
+  "packageManager": "pnpm@10.15.1",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

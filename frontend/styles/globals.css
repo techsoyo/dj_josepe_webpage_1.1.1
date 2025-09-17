@@ -1,0 +1,363 @@
+/* Estilos globales optimizados para DJ Josepe */
+
+/* Import external dependencies (Bootstrap, Fonts) */
+@import '../styles/vendor/external.css';
+
+/* Import component styles */
+@import '../styles/components/soundcloud-player.css';
+
+/* Custom CSS variables inspired by the original Vue project.  These
+   variables allow us to keep a similar colour scheme without
+   depending on the original CSS preprocessor. */
+:root {
+  --primary-color: #ffc107;
+  --primary-dark: #ffb300;
+  --secondary-color: #6c757d;
+  --dark-bg: #121212;
+  --card-bg: #343a40;
+  --border-color: #6c757d;
+  --text-light: #e9ecef;
+  --text-muted: #adb5bd;
+}
+
+body {
+  background-color: rgb(0, 0, 0);
+  color: var(--text-light);
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+/* Apply Montserrat to headings and important elements only */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.navbar-brand,
+.btn,
+.card-title {
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Helper classes used throughout the components. */
+.text-warning {
+  color: var(--primary-color) !important;
+}
+
+.bg-dark {
+  background-color: var(--dark-bg) !important;
+}
+
+.section {
+  padding: 4rem 0;
+}
+
+.btn-warning {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: #000;
+}
+
+.btn-outline-warning {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.btn-outline-warning:hover {
+  background-color: var(--primary-color);
+  color: #000;
+}
+
+.card-dark {
+  background-color: var(--card-bg);
+  border: 0;
+  border-radius: 1rem;
+}
+
+/* Scroll margin to account for fixed navbar. */
+[data-scroll-margin] {
+  scroll-margin-top: 80px;
+}
+
+/* Scroll suave para toda la página */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Permitir overflow horizontal solo donde sea necesario */
+body {
+  overflow-x: hidden;
+}
+
+/* Make sure modals overlay properly on dark backgrounds. */
+.modal-backdrop.show {
+  opacity: 0.5;
+}
+
+/* Estilos globales mejorados para DJ Josepe */
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--dark-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #ff5252, #26c6da);
+}
+
+/* Efectos de selección de texto */
+::selection {
+  background: rgba(255, 193, 7, 0.3);
+  color: #fff;
+}
+
+::-moz-selection {
+  background: rgba(255, 193, 7, 0.3);
+  color: #fff;
+}
+
+/* Animaciones globales */
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgba(255, 193, 7, 0.5);
+  }
+
+  50% {
+    box-shadow: 0 0 20px rgba(255, 193, 7, 0.8);
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Mejoras en botones */
+.btn {
+  border-radius: 25px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn-warning {
+  background: linear-gradient(45deg, #ffc107, #ffb300);
+  border: none;
+  color: #000;
+}
+
+.btn-warning:hover {
+  background: linear-gradient(45deg, #ffb300, #ff8f00);
+  color: #000;
+}
+
+.btn-outline-light {
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  background: transparent;
+}
+
+.btn-outline-light:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+  color: #fff;
+}
+
+/* Mejoras en cards */
+.card {
+  background: var(--card-bg);
+  border: 1px solid rgba(255, 193, 7, 0.2);
+  border-radius: 15px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(255, 193, 7, 0.2);
+  border-color: rgba(255, 193, 7, 0.5);
+}
+
+/* Efectos de loading */
+.loading {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Mejoras tipográficas */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.display-1,
+.display-2,
+.display-3,
+.display-4 {
+  font-weight: 900;
+}
+
+/* Efectos de foco mejorados */
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+}
+
+/* Utilidades adicionales */
+.text-gradient {
+  background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.bg-gradient-dark {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+}
+
+.shadow-glow {
+  box-shadow: 0 0 20px rgba(255, 193, 7, 0.3);
+}
+
+.border-gradient {
+  border: 2px solid;
+  border-image: linear-gradient(45deg, #ff6b6b, #4ecdc4) 1;
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+  .section {
+    padding: 3rem 0;
+  }
+
+  .display-1 {
+    font-size: 3rem;
+  }
+
+  .display-2 {
+    font-size: 2.5rem;
+  }
+
+  .display-3 {
+    font-size: 2rem;
+  }
+
+  .display-4 {
+    font-size: 1.75rem;
+  }
+}
+
+/* Efectos de partículas de fondo */
+.particles-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+.particles-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at 20% 80%, rgba(255, 107, 107, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(69, 183, 209, 0.1) 0%, transparent 50%);
+  animation: float 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Mejoras en la navegación */
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+.nav-link {
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+/* Efectos de hover en imágenes */
+img {
+  transition: all 0.3s ease;
+}
+
+img:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+/* Mejoras en formularios */
+.form-control,
+.form-select {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-light);
+  border-radius: 10px;
+}
+
+.form-control::placeholder {
+  color: var(--text-muted);
+}
+
+/* Efectos de carga de página */
+.page-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.5s ease;
+}

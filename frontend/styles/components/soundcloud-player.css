@@ -1,0 +1,87 @@
+/* Estilos para el componente SoundCloudPlayer */
+
+.soundcloud-player-container {
+  width: 100%;
+  min-height: 400px;
+  position: relative;
+}
+
+.soundcloud-fallback {
+  width: 100%;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #343a40;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.soundcloud-fallback .alert {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  margin: 0;
+  text-align: center;
+  width: 100%;
+}
+
+.soundcloud-fallback .alert-warning {
+  background: rgba(255, 193, 7, 0.1);
+  border-color: rgba(255, 193, 7, 0.3);
+  color: #ffc107;
+}
+
+.soundcloud-fallback .alert-info {
+  background: rgba(13, 202, 240, 0.1);
+  border-color: rgba(13, 202, 240, 0.3);
+  color: #0dcaf0;
+}
+
+.loading-placeholder {
+  min-height: 400px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  color: #6c757d;
+}
+
+.soundcloud-player-container iframe {
+  border-radius: 8px;
+  transition: opacity 0.3s ease;
+}
+
+/* Dark theme adjustments */
+.card-dark .soundcloud-fallback {
+  background: #2d3436;
+}
+
+.card-dark .loading-placeholder {
+  background: #2d3436;
+  color: #b2bec3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .soundcloud-player-container {
+    min-height: 300px;
+  }
+  
+  .soundcloud-fallback {
+    min-height: 300px;
+    padding: 15px;
+  }
+  
+  .loading-placeholder {
+    min-height: 300px;
+  }
+}
+
+/* Button styling in fallback */
+.soundcloud-fallback .btn {
+  transition: all 0.3s ease;
+}
+
+.soundcloud-fallback .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}

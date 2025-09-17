@@ -1,0 +1,407 @@
+/* Estilo Neomórfico */
+.container {
+  --primary-color: #e0e5ec;
+  --secondary-color: #d1d9e6;
+  --accent-color: #a3b1c2;
+  --background: linear-gradient(135deg, #000000 0%, #eef1f5 100%);
+  --card-bg: #e0e5ec;
+  --input-bg: #e0e5ec;
+  --border-color: #d1d9e6;
+  --text-color: #555555;
+  --text-muted: #888888;
+  --focus-shadow: rgba(163, 177, 194, 0.4);
+  --button-shadow: rgba(163, 177, 194, 0.4);
+  --info-bg: #e0e5ec;
+  /* separar la card de la parte superior de la ventana (ajustable) */
+  padding-top: 2.0rem;
+  /* añadir separación lateral para evitar que el halo se recorte en móviles/ventanas pequeñas */
+  padding-left: 2.5rem;
+  padding-right: 3.5rem;
+}
+
+/* Fondo neomórfico suave */
+.form {
+  background: linear-gradient(145deg, #e6e9f0, #ffffff);
+  border-radius: 1.5rem;
+  /* balanced neomorphic shadows: symmetric offsets to avoid corner imbalance */
+  box-shadow:
+    0.9rem 0.9rem 2.2rem rgba(190, 195, 204, 0.85),
+    -0.9rem -0.9rem 2.2rem rgba(255, 255, 255, 0.78),
+    0 0.9rem 2.2rem rgba(0, 0, 0, 0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.form::before {
+  content: \'\';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* make the overlay lighter on top and shift it slightly down to center the glow */
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.06) 35%, rgba(0, 0, 0, 0.04));
+  transform: translateY(0.25rem);
+  border-radius: 1.5rem;
+  pointer-events: none;
+}
+
+/* Título con efecto neomórfico sutil */
+.title {
+  /* usar exactamente el mismo color que las labels */
+  color: var(--text-color);
+  font-weight: 600;
+  font-size: 1.62rem;
+  /* Reducido 10% de 1.8rem */
+  text-align: center;
+  position: relative;
+  text-shadow: none;
+  margin-top: 0.45rem;
+  /* Reducido 10% */
+  margin-bottom: 1.8rem;
+  /* Reducido 10% */
+  /* Removed !important and adjusted specificity if needed */
+  background: none;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: initial;
+  background-clip: initial;
+}
+
+.title::after {
+  content: \'\';
+  position: absolute;
+  bottom: -0.9rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8rem;
+  height: 0.15rem;
+  background: linear-gradient(145deg, #d1d9e6, #ffffff);
+  border-radius: 0.125rem;
+  box-shadow:
+    0.125rem 0.125rem 0.25rem #bec3cc,
+    -0.125rem -0.125rem 0.25rem #ffffff;
+}
+
+/* Inputs con efecto neomórfico */
+.input,
+.select,
+.textarea {
+  background: linear-gradient(145deg, #e6e9f0, #ffffff);
+  border: none;
+  border-radius: 0.73rem;
+  /* Reducido 10% */
+  box-shadow:
+    inset 0.24rem 0.24rem 0.49rem #bec3cc,
+    /* Reducido 10% */
+    inset -0.24rem -0.24rem 0.49rem #ffffff;
+  /* Reducido 10% */
+  transition: all 0.3s ease;
+  font-family: \'Inter\', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #555555;
+  padding: 0.72rem 1.01rem;
+  /* Reducido 10% */
+  font-size: 0.81rem;
+  /* Reducido 10% */
+  width: 100%;
+  height: 2.7rem;
+  /* Reducido 10% */
+}
+
+.textarea {
+  height: auto;
+  min-height: 2.93rem;
+  /* Reducido 10% de 3.25rem */
+  resize: vertical;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  box-shadow:
+    inset 0.5rem 0.5rem 1rem #bec3cc,
+    inset -0.5rem -0.5rem 1rem #ffffff,
+    0 0 0 0.2rem rgba(163, 177, 194, 0.3);
+  transform: scale(1.02);
+}
+
+.input:hover,
+.select:hover,
+.textarea:hover {
+  box-shadow:
+    inset 0.2rem 0.2rem 0.4rem #bec3cc,
+    inset -0.2rem -0.2rem 0.4rem #ffffff;
+}
+
+/* Labels con estilo neomórfico */
+.label {
+  color: #555555;
+  font-weight: 500;
+  font-size: 0.54rem;
+  /* Reducido 10% */
+  text-transform: uppercase;
+  letter-spacing: 0.027rem;
+  /* Reducido 10% */
+  margin-bottom: 0.27rem;
+  /* Reducido 10% */
+  position: relative;
+  padding-left: 0.81rem;
+  /* Reducido 10% */
+}
+
+.label::before {
+  content: \'\';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.5rem;
+  height: 0.5rem;
+  background: linear-gradient(145deg, #d1d9e6, #ffffff);
+  border-radius: 50%;
+  box-shadow:
+    0.125rem 0.125rem 0.25rem #bec3cc,
+    -0.125rem -0.125rem 0.25rem #ffffff;
+}
+
+/* Botón con efecto neomórfico */
+.submitButton {
+  background: linear-gradient(145deg, #e6e9f0, #ffffff);
+  color: var(--text-color);
+  border: none;
+  border-radius: 1.08rem;
+  /* Reducido 10% */
+  font-weight: 600;
+  font-size: 1.05rem;
+  /* Reducido 10% */
+  text-align: center;
+  letter-spacing: 0.044rem;
+  /* Reducido 10% */
+  box-shadow:
+    0.365rem 0.365rem 0.73rem #bec3cc,
+    /* Reducido 10% */
+    -0.365rem -0.365rem 0.73rem #ffffff;
+  /* Reducido 10% */
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  padding: 0.81rem 2.25rem;
+  /* Reducido 10% */
+  margin: 0 auto;
+  cursor: pointer;
+  min-width: 10.8rem;
+  /* Reducido 10% */
+  display: block;
+}
+
+.submitButton::before {
+  content: \'\';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(145deg, #ffffff, #e6e9f0);
+  border-radius: 1.25rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.submitButton:hover {
+  box-shadow:
+    0.675rem 0.675rem 1.35rem #bec3cc,
+    -0.675rem -0.675rem 1.35rem #ffffff;
+  transform: translateY(-0.1125rem);
+}
+
+.submitButton:hover::before {
+  opacity: 1;
+}
+
+.submitButton:active {
+  box-shadow:
+    inset 0.225rem 0.225rem 0.45rem #bec3cc,
+    inset -0.225rem -0.225rem 0.45rem #ffffff;
+  transform: translateY(0);
+}
+
+/* Items de información con neomorfismo */
+.infoItem {
+  background: linear-gradient(145deg, #e6e9f0, #ffffff);
+  border-radius: 1.25rem;
+  box-shadow:
+    0.5rem 0.5rem 1rem #bec3cc,
+    -0.5rem -0.5rem 1rem #ffffff;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.infoItem::before {
+  content: \'\';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.05));
+  border-radius: 1.25rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.infoItem:hover {
+  box-shadow:
+    0.75rem 0.75rem 1.5rem #bec3cc,
+    -0.75rem -0.75rem 1.5rem #ffffff;
+  transform: translateY(-0.2rem);
+}
+
+.infoItem:hover::before {
+  opacity: 1;
+}
+
+.infoItem i {
+  color: #a3b1c2;
+  transition: all 0.3s ease;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.infoItem:hover i {
+  color: #555555;
+  transform: scale(1.1);
+}
+
+/* Efectos de profundidad adicionales */
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.08rem;
+  /* Reducido 10% */
+  margin-top: 1.35rem;
+  /* Reducido 10% */
+  margin-left: 0.9vw;
+  /* Reducido 10% */
+  margin-right: 0.9vw;
+  /* Reducido 10% */
+}
+
+.colSpan2 {
+  grid-column: span 2;
+}
+
+.infoGrid {
+  gap: 1.125rem;
+}
+
+/* Placeholder con estilo neomórfico */
+.input::placeholder,
+.textarea::placeholder {
+  color: #a3b1c2;
+  font-style: italic;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+/* Card wrapper to center and limit width */
+.formCard {
+  max-width: 35.8rem;
+  /* Reducido 10% de 42rem */
+  margin: 0.45rem auto 1.64rem auto;
+  /* Reducido 10% */
+  padding: 1.8rem 2.25rem 2.25rem 2.25rem;
+  /* Reducido 10% */
+  border-radius: 1.35rem;
+  /* Reducido 10% */
+  /* match .form */
+  overflow: visible;
+  /* allow halo to be shown outside if needed */
+}
+
+/* Form actions container */
+.formActions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 1.8rem;
+  /* Reducido 10% */
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+/* Success/error message styling */
+.submitMessage {
+  margin-top: 1.5rem;
+  padding: 0.8rem;
+  border-radius: 0.8rem;
+  text-align: center;
+  font-size: 0.8rem;
+  transition: all 0.3s ease;
+}
+
+.successMessage {
+  background: linear-gradient(145deg, #e6f7e6, #ffffff);
+  box-shadow:
+    0.3rem 0.3rem 0.6rem rgba(190, 220, 190, 0.8),
+    -0.3rem -0.3rem 0.6rem rgba(255, 255, 255, 0.8);
+  color: #2e7d32;
+}
+
+.errorMessage {
+  background: linear-gradient(145deg, #f7e6e6, #ffffff);
+  box-shadow:
+    0.3rem 0.3rem 0.6rem rgba(220, 190, 190, 0.8),
+    -0.3rem -0.3rem 0.6rem rgba(255, 255, 255, 0.8);
+  color: #c62828;
+}
+
+/* Intro text above the card, limited to card width */
+.introWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.introText {
+  max-width: 36.1675125rem;
+  color: #000000;
+  margin: 0.5625rem auto 1.0125rem auto;
+  padding: 0 0.675rem;
+  text-align: left;
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+/* White intro variant */
+.introWhiteWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.introWhiteText {
+  max-width: 36.1675125rem;
+  color: #ffffff;
+  margin: 0.5625rem auto 0rem auto;
+  padding: 0 0.675rem 0 0.675rem;
+  text-align: left;
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+/* Media queries para responsive */
+@media (max-width: 768px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .colSpan2 {
+    grid-column: 1;
+  }
+
+  .formCard {
+    padding: 1.5rem;
+  }
+
+  .title {
+    font-size: 1.2rem;
+  }
+}
