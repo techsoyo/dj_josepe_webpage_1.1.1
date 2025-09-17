@@ -15,12 +15,13 @@
 ## Ubicación del Código
 
 Las credenciales están configuradas en:
+
 - `frontend/app/admin/login/page.js` - línea 15 (formulario)
 - `backend/prisma/seed.js` - líneas 10-18 (usuario en base de datos)
 
 ```javascript
 // Frontend - formulario precargado
-const [form, setForm] = useState({ username: 'admin', password: 'admin123' });
+const [form, setForm] = useState({ username: "admin", password: "admin123" });
 
 // Backend - usuario creado en seed
 const admin = await prisma.user.upsert({
@@ -32,24 +33,36 @@ const admin = await prisma.user.upsert({
     email: "admin@dj.local",
     password: hashedPassword, // admin123 hasheada
     role: "admin",
-    isActive: true
-  }
+    isActive: true,
+  },
 });
 ```
 
 ## Cómo Acceder al Panel Admin
 
-### Método 1: Combinación de Teclas
-- **Combinación:** `Ctrl + Alt Gr + ñ`
-- Presiona estas teclas simultáneamente en cualquier página del sitio
-- Aparecerá un botón flotante para acceder al panel
+### Método 1: Clicks en Logo (Principal)
 
-### Método 2: Secuencia de Teclas (Móvil)
+- **Acción:** Haz clic 5 veces en el logo del sitio en 3 segundos
+- Disponible en cualquier página del sitio donde aparezca el logo
+- Aparecerá un modal con las instrucciones de acceso
+- **Ventaja:** Funciona en todos los dispositivos (desktop y móvil)
+
+### Método 2: Código PIN Visual
+
+- **Ubicación:** Campo PIN en la esquina inferior derecha
+- **Código:** 1234 (por defecto)
+- Ingresa el código y presiona Enter o el botón de acceso
+- Te redirigirá automáticamente al panel de login
+- **Ventaja:** Acceso discreto y rápido
+
+### Método 3: Secuencia de Teclas (Backup)
+
 - Escribe la palabra "admin" en cualquier campo de texto **excepto campos de contraseña**
-- Aparecerá el mismo botón flotante
+- Aparecerá un botón flotante para acceder al panel
 - **Nota:** La secuencia no funciona en campos de contraseña por seguridad
 
-### Método 3: URL Directa
+### Método 4: URL Directa
+
 - Ve directamente a: `/admin/login`
 
 ## Estado Actual
@@ -57,12 +70,18 @@ const admin = await prisma.user.upsert({
 - ✅ Usuario admin creado en base de datos (seed ejecutado)
 - ✅ Frontend configurado para usar username
 - ✅ Credenciales precargadas en formulario de login
+- ✅ Nuevo sistema de acceso implementado (5 clicks en logo + PIN visual)
+- ✅ Métodos de acceso compatibles con dispositivos móviles y desktop
+- ✅ Componentes AdminAccess.js y PinAccess.js actualizados
 
 ## Próximos Pasos
 
 1. Asegurarse de que el backend esté ejecutándose
-2. Acceder al panel de administración con las credenciales arriba
-3. Cambiar la contraseña por defecto por seguridad
+2. Probar los nuevos métodos de acceso (clicks en logo y PIN 1234)
+3. Acceder al panel de administración con las credenciales arriba
+4. Cambiar la contraseña por defecto por seguridad
+5. Configurar un PIN personalizado si se desea (actualmente es 1234)
 
 ---
-*Documento actualizado - Fecha: 8 de septiembre de 2025*
+
+_Documento actualizado - Fecha: 17 de septiembre de 2025_

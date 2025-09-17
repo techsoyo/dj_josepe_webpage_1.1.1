@@ -31,18 +31,49 @@ export default function AdminAccess() {
     return () => { active = false; };
   }, [showButton]);
 
+  // Clicks en logo para acceso admin
+  useEffect(() => {
+    if (isLogin) return;
+
+    let logoClickCount = 0;
+    let logoClickTimer = null;
+
+    const handleLogoClick = (e) => {
+      e.preventDefault();
+      logoClickCount++;
+      
+      if (logoClickCount === 1) {
+        logoClickTimer = setTimeout(() => {
+          logoClickCount = 0;
+        }, 3000);
+      }
+      
+      if (logoClickCount === 5) {
+        clearTimeout(logoClickTimer);
+        setShowButton(true);
+        setTimeout(() => setShowButton(false), 10000);
+        logoClickCount = 0;
+      }
+    };
+
+    const logoElement = document.querySelector('.navbar-brand');
+    if (logoElement) {
+      logoElement.addEventListener('click', handleLogoClick);
+    }
+
+    return () => {
+      if (logoElement) {
+        logoElement.removeEventListener('click', handleLogoClick);
+      }
+      if (logoClickTimer) clearTimeout(logoClickTimer);
+    };
+  }, [isLogin]);
+
   // Hotkeys (no se instalan en /admin/login)
   useEffect(() => {
     if (isLogin) return;
 
     const handleKeyDown = (e) => {
-      // Ctrl + Alt + ñ
-      if (e.ctrlKey && e.altKey && (e.key === 'ñ' || e.key === 'Ñ')) {
-        e.preventDefault();
-        setShowButton(true);
-        setTimeout(() => setShowButton(false), 10000);
-        return;
-      }
 
       // Evitar escribir en campos sensibles
       const active = document.activeElement;
@@ -166,9 +197,8 @@ export default function AdminAccess() {
         )}
 
         <div style={{ marginTop:15, fontSize:12, color:'#666', borderTop:'1px solid #333', paddingTop:10 }}>
-          <p style={{ margin:0 }}>💡 <strong>Acceso rápido:</strong> Ctrl + Alt + ñ</p>
-          <p style={{ margin:'5px 0 0 0' }}>📱 <strong>Móvil:</strong> escribe “admin”</p>
-        </div>
+          <p style={{ margin:0 }}>💡 <strong>Acceso rápido:</strong> 5 clicks en logo</p>
+          <p style={{ margin:'5px 0 0 0' }}>🔢 <strong>PIN:</strong> código en esquina</p>        </div>
         </div>
       </div>
 

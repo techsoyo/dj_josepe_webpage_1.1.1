@@ -63,12 +63,35 @@ export default function VideoSection() {
       }
     };
 
-    // Autoplay seguro del video (no romper si el navegador lo bloquea)
+    // Autoplay seguro del video con lazy loading
     if (videoRef.current) {
       const v = videoRef.current;
       v.muted = true;
       v.playsInline = true;
-      v.play().catch(() => { });
+      
+      // Cargar video solo cuando sea visible o después de un delay
+      const loadVideo = () => {
+        if (v.readyState < 2) { // Si no está cargado
+          v.preload = "auto";
+          v.load();
+        }
+        v.play().catch(() => { });
+      };
+
+      // Usar Intersection Observer para cargar cuando sea visible
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            loadVideo();
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.1 });
+
+      observer.observe(v);
+
+      // Fallback: cargar después de 2 segundos si no es visible
+      setTimeout(loadVideo, 2000);
     }
 
     if (!prefersReduced) {
@@ -145,12 +168,14 @@ export default function VideoSection() {
       <div ref={triggerRef} className="video-section">
         <video
           ref={videoRef}
-          src="/video-dj.mp4"
+          src="/Video-dj.mp4"
+          poster="/logo.png" // Imagen mientras carga
           loop
           autoPlay
           muted
           playsInline
-          preload="metadata"
+          preload="none" // Solo cargar cuando sea necesario
+          loading="lazy" // Lazy loading nativo
         />
         <div ref={textContainerRef} className="video-copy">
           <h5 id="dj" className={montserrat.className} style={{ fontWeight: 400 }}>
@@ -379,6 +404,7 @@ export default function VideoSection() {
           width: 100%;
           height: 100vh;
           object-fit: cover;
+          object-position: center;
           position: fixed;
           top: 0;
           left: 0;
@@ -387,6 +413,15 @@ export default function VideoSection() {
           transform: scale(0.93);
           transform-origin: center;
           filter: brightness(1.3) contrast(1.1);
+          /* Transición suave para cuando carga el video */
+          transition: opacity 0.5s ease-in-out;
+        }
+
+        #video-component .video-section video[poster] {
+          /* Asegurar que el poster se vea bien */
+          background-size: cover;
+          background-position: center;
+          background-color: #000;
         }
 
         #video-component .video-copy {

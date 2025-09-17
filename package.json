@@ -6,9 +6,10 @@
   "description": "DJ Josepe Full Stack Project",
   "scripts": {
     "start": "node start.js",
-    "dev": "concurrently \"pnpm run backend\" \"pnpm run frontend\"",
+    "dev": "concurrently --kill-others --kill-others-on-fail \"pnpm run backend\" \"pnpm run frontend\"",
     "backend": "pnpm --filter dj-josepe-backend run dev",
     "frontend": "pnpm --filter dj-josepe-frontend run dev",
+    "stop": "node stop-servers.cjs",
     "install:all": "pnpm install --recursive"
   },
   "keywords": [

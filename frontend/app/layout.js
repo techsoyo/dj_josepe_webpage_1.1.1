@@ -1,6 +1,7 @@
 // app/layout.js
 import "./globals.css";
 import AdminAccess from "../components/AdminAccess";
+import PinAccess from "../components/PinAccess";
 
 export const metadata = {
   title: "DJ Josepe",
@@ -42,6 +43,7 @@ export default function RootLayout({ children }) {
       <body>
         {children}
         <AdminAccess />
+        <PinAccess />
 
         {/* Bootstrap JS */}
         <script

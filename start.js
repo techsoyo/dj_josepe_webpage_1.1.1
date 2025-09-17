@@ -1,14 +1,100 @@
 #!/usr/bin/env node
 
-import { spawn } from 'child_process';
+import { spawn, exec } from 'child_process';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import fs from 'fs';
+import { promisify } from 'util';
 
+const execAsync = promisify(exec);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 console.log('🚀 Iniciando DJ Josepe Webpage...\n');
+
+// Función para eliminar procesos Node.js activos
+async function killExistingNodeProcesses() {
+  try {
+    console.log('🔍 Verificando procesos Node.js activos...');
+    
+    // Detectar el sistema operativo
+    const isWindows = process.platform === 'win32';
+    
+    if (isWindows) {
+      // Windows: Usar wmic para encontrar procesos node.exe
+      try {
+        const { stdout } = await execAsync('wmic process where "name=\'node.exe\'" get ProcessId /value 2>nul');
+        const pids = stdout.match(/ProcessId=(\d+)/g);
+        
+        if (pids && pids.length > 0) {
+          console.log(`🛑 Encontrados ${pids.length} procesos Node.js. Eliminando...`);
+          
+          // Eliminar cada proceso por PID
+          for (const pidMatch of pids) {
+            const pid = pidMatch.split('=')[1];
+            if (pid && pid !== process.pid.toString()) {
+              try {
+                process.kill(parseInt(pid), 'SIGTERM');
+              } catch (err) {
+                // Si SIGTERM no funciona, usar SIGKILL
+                try {
+                  process.kill(parseInt(pid), 'SIGKILL');
+                } catch (killErr) {
+                  console.log(`⚠️ No se pudo eliminar proceso ${pid}`);
+                }
+              }
+            }
+          }
+          
+          console.log('✅ Procesos Node.js eliminados');
+          // Esperar un momento para que se liberen los puertos
+          await new Promise(resolve => setTimeout(resolve, 2000));
+        } else {
+          console.log('✅ No hay procesos Node.js activos');
+        }
+      } catch (wmicError) {
+        // Fallback: intentar con tasklist
+        const { stdout } = await execAsync('tasklist /FI "IMAGENAME eq node.exe" /FO CSV 2>nul');
+        const lines = stdout.split('\n').filter(line => line.includes('node.exe'));
+        
+        if (lines.length > 1) {
+          console.log(`🛑 Encontrados procesos Node.js. Eliminando...`);
+          await execAsync('taskkill /F /IM node.exe 2>nul');
+          console.log('✅ Procesos Node.js eliminados');
+          await new Promise(resolve => setTimeout(resolve, 2000));
+        }
+      }
+    } else {
+      // Unix/Linux/macOS: usar ps y kill con Node.js
+      const { stdout } = await execAsync('ps aux | grep node | grep -v grep | awk \'{print $2}\'');
+      const pids = stdout.trim().split('\n').filter(pid => pid && pid !== process.pid.toString());
+      
+      if (pids.length > 0) {
+        console.log(`🛑 Encontrados ${pids.length} procesos Node.js. Eliminando...`);
+        
+        for (const pid of pids) {
+          try {
+            process.kill(parseInt(pid), 'SIGTERM');
+          } catch (err) {
+            try {
+              process.kill(parseInt(pid), 'SIGKILL');
+            } catch (killErr) {
+              console.log(`⚠️ No se pudo eliminar proceso ${pid}`);
+            }
+          }
+        }
+        
+        console.log('✅ Procesos Node.js eliminados');
+        await new Promise(resolve => setTimeout(resolve, 2000));
+      } else {
+        console.log('✅ No hay procesos Node.js activos');
+      }
+    }
+  } catch (error) {
+    console.log('⚠️ Error al verificar/eliminar procesos:', error.message);
+    console.log('📋 Continuando con el arranque...');
+  }
+}
 
 // Función para ejecutar comandos
 function runCommand(command, args, cwd, name) {
@@ -179,6 +265,9 @@ async function main() {
   const frontendDir = join(__dirname, 'frontend');
 
   try {
+    // Eliminar procesos Node.js activos antes de iniciar
+    await killExistingNodeProcesses();
+
     // Verificar e instalar dependencias del backend
     if (!checkDependencies(backendDir)) {
       console.log('📦 Instalando dependencias del backend...');

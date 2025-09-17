@@ -31,8 +31,16 @@ export async function getMusicSets() {
   const apiBase = process.env.NEXT_PUBLIC_API_URL || '';
   const path = process.env.NEXT_PUBLIC_MUSICSETS_PATH || '/api/sets';
 
-  // Construye una única URL final (sin duplicar /api)
-  const url = apiBase ? joinUrl(apiBase, path) : path;
+  // En el servidor (SSR), necesitamos URL absoluta
+  // En el cliente, podemos usar URL relativa que Next.js redirigirá
+  let url;
+  if (typeof window === 'undefined') {
+    // Servidor: usar URL completa
+    url = apiBase ? joinUrl(apiBase, path) : `http://localhost:4000${path}`;
+  } else {
+    // Cliente: usar URL relativa para aprovechar los rewrites de Next.js
+    url = path;
+  }
 
   console.info('[getMusicSets] URL:', url);
 
