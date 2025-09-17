@@ -6,18 +6,18 @@ const isProd = process.env.NODE_ENV === 'production';
 export async function login(req, res) {
   try {
     const { password } = req.body;
-    if (!password) return res.status(400).json({ error: 'Password required' });
+    if (!password) return res.status(400).json({ error: 'Contraseña requerida' });
 
     const dj = await getDJAuth();
     if (!dj || !comparePassword(password, dj.passwordHash)) {
-      return res.status(401).json({ success: false, error: 'Credenciales inválidas' });
+      return res.status(401).json({ success: false, error: 'Contraseña incorrecta' });
     }
-    
-    const token = signToken({ sub: 'dj_admin' }); // payload mínimo
+
+    const token = signToken({ sub: 'dj_admin' });
     res.cookie('dj_token', token, {
       httpOnly: true,
       sameSite: 'lax',
-      secure: isProd,     // en local false, en prod true (HTTPS)
+      secure: isProd,
       path: '/',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 días
     });

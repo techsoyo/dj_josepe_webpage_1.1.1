@@ -37,16 +37,16 @@ export default function AdminDashboard() {
   const checkAuthAndLoadData = async () => {
     try {
       // Check if user is authenticated
-      const isAuthenticated = await authService.checkAuth()
-      if (!isAuthenticated) {
-        router.push('/admin/login')
+      const sessionData = await authService.verifySession()
+      if (!sessionData) {
+        router.push('/dj-josepe-aqui-mando-yo')
         return
       }
 
       await loadDashboardData()
     } catch (err) {
       console.error('Auth check failed:', err)
-      router.push('/admin/login')
+      router.push('/dj-josepe-aqui-mando-yo')
     }
   }
 
@@ -103,7 +103,7 @@ export default function AdminDashboard() {
   const handleLogout = async () => {
     try {
       await authService.logout()
-      router.push('/admin/login')
+      router.push('/dj-josepe-aqui-mando-yo')
     } catch (err) {
       console.error('Logout failed:', err)
     }

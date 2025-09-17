@@ -21,9 +21,9 @@ const Layout = ({ children }) => {
     '/admin/settings'
   ];
   
-  // Rutas que no necesitan layout (como login)
+  // Rutas que no necesitan layout (como login) - eliminamos /admin/login
   const noLayoutRoutes = [
-    '/admin/login'
+    // '/admin/login' - eliminado ya que no existe más
   ];
   
   // Determinar qué layout usar

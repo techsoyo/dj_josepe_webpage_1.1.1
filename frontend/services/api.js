@@ -26,8 +26,8 @@ api.interceptors.response.use(
     const status = error?.response?.status;
     if (status === 401) {
       if (typeof window !== 'undefined') {
-        // We don't need to clear session here as there's no local session data
-        window.location.href = '/admin/login';
+        // Para errores 401, simplemente mostrar error sin redirigir
+        console.warn('Sesión expirada o no autorizada');
       }
     }
     return Promise.reject(error);

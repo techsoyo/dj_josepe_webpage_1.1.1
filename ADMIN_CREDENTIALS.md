@@ -1,86 +1,76 @@
 # Credenciales de Acceso Admin
 
-## Información de Login por Defecto
+## Sistema de Acceso Actual
 
-**Usuario:** admin
-**Contraseña:** admin123
-**Email:** admin@dj.local
+**URL de Acceso:** `/dj-josepe-aqui-mando-yo`
+**Método:** Contraseña directa (sin username/email)
+**Tabla:** `DJAuth` en base de datos `josepe_DB`
 
-## Notas Importantes
+## Información de Login
 
-- Estas son las credenciales por defecto configuradas en el seed de Prisma
-- El backend espera un `username` en lugar de `email` para el login
-- Se recomienda cambiar la contraseña después del primer acceso por motivos de seguridad
+- **Contraseña:** `#josepe@2025`
+- **Hash en BD:** `$2b$12$.3mX3kYbGxkBDR8boBzey.EOGDZlBxeIq9wRy3f7xF6EMcsKaStkC`
+- **URL Secreta:** Solo el DJ conoce la URL `/dj-josepe-aqui-mando-yo`
+- **Sin username/email:** El sistema solo valida la contraseña contra la BD
+- **ID en DJAuth:** 2
+
+## Arquitectura de Seguridad
+
+1. **Acceso público:** Cualquier URL admin muestra 404
+2. **Acceso privado:** Solo `/dj-josepe-aqui-mando-yo` permite login
+3. **Autenticación:** Contraseña hasheada en tabla `DJAuth`
+4. **Sesión:** Cookie `dj_token` con JWT (7 días)
 
 ## Ubicación del Código
 
-Las credenciales están configuradas en:
+- **Frontend:** `frontend/app/dj-josepe-aqui-mando-yo/page.js`
+- **Backend:** `backend/src/controllers/auth.controller.js`
+- **Base de datos:** Tabla `DJAuth` (id, passwordHash)
 
-- `frontend/app/admin/login/page.js` - línea 15 (formulario)
-- `backend/prisma/seed.js` - líneas 10-18 (usuario en base de datos)
-
-```javascript
-// Frontend - formulario precargado
-const [form, setForm] = useState({ username: "admin", password: "admin123" });
-
-// Backend - usuario creado en seed
-const admin = await prisma.user.upsert({
-  where: { email: "admin@dj.local" },
-  update: {},
-  create: {
-    username: "admin",
-    name: "DJ Josepe Admin",
-    email: "admin@dj.local",
-    password: hashedPassword, // admin123 hasheada
-    role: "admin",
-    isActive: true,
-  },
-});
+```sql
+-- Estructura de tabla DJAuth
+CREATE TABLE `DJAuth` (
+  `id` int NOT NULL,
+  `passwordHash` varchar(255) NOT NULL
+);
 ```
+
+## Notas de Seguridad
+
+- ✅ **URL secreta** - Solo el DJ conoce la ruta
+- ✅ **Contraseña hasheada** - bcrypt con salt
+- ✅ **Sin username** - Menos superficie de ataque
+- ✅ **Sesión por cookie** - JWT seguro
+- ✅ **Sin redirecciones automáticas** - Control total del flujo
 
 ## Cómo Acceder al Panel Admin
 
-### Método 1: Clicks en Logo (Principal)
+### Método Único: URL Secreta + Contraseña
 
-- **Acción:** Haz clic 5 veces en el logo del sitio en 3 segundos
-- Disponible en cualquier página del sitio donde aparezca el logo
-- Aparecerá un modal con las instrucciones de acceso
-- **Ventaja:** Funciona en todos los dispositivos (desktop y móvil)
-
-### Método 2: Código PIN Visual
-
-- **Ubicación:** Campo PIN en la esquina inferior derecha
-- **Código:** 1234 (por defecto)
-- Ingresa el código y presiona Enter o el botón de acceso
-- Te redirigirá automáticamente al panel de login
-- **Ventaja:** Acceso discreto y rápido
-
-### Método 3: Secuencia de Teclas (Backup)
-
-- Escribe la palabra "admin" en cualquier campo de texto **excepto campos de contraseña**
-- Aparecerá un botón flotante para acceder al panel
-- **Nota:** La secuencia no funciona en campos de contraseña por seguridad
-
-### Método 4: URL Directa
-
-- Ve directamente a: `/admin/login`
+1. **Navegar a:** `/dj-josepe-aqui-mando-yo`
+2. **Introducir:** Solo la contraseña en el campo único
+3. **Autenticación:** Sistema valida contra tabla `DJAuth`
+4. **Redirección:** Acceso directo al dashboard `/admin/dashboard`
 
 ## Estado Actual
 
-- ✅ Usuario admin creado en base de datos (seed ejecutado)
-- ✅ Frontend configurado para usar username
-- ✅ Credenciales precargadas en formulario de login
-- ✅ Nuevo sistema de acceso implementado (5 clicks en logo + PIN visual)
-- ✅ Métodos de acceso compatibles con dispositivos móviles y desktop
-- ✅ Componentes AdminAccess.js y PinAccess.js actualizados
+- ✅ Sistema simplificado a URL secreta + contraseña única
+- ✅ Tabla `DJAuth` configurada con contraseña hasheada
+- ✅ Sin métodos legacy (clicks, PIN, username/password)
+- ✅ Autenticación JWT con cookie HTTP-only
+- ✅ Frontend y backend limpios sin código obsoleto
 
 ## Próximos Pasos
 
-1. Asegurarse de que el backend esté ejecutándose
-2. Probar los nuevos métodos de acceso (clicks en logo y PIN 1234)
-3. Acceder al panel de administración con las credenciales arriba
-4. Cambiar la contraseña por defecto por seguridad
-5. Configurar un PIN personalizado si se desea (actualmente es 1234)
+1. ✅ Asegurarse de que el backend esté ejecutándose
+2. ✅ Navegar a `/dj-josepe-aqui-mando-yo`
+3. ✅ Introducir la contraseña: `#josepe@2025`
+4. ✅ Acceder al dashboard de administración
+
+## Prueba de Acceso
+
+**URL completa:** http://localhost:3000/dj-josepe-aqui-mando-yo
+**Contraseña:** #josepe@2025
 
 ---
 

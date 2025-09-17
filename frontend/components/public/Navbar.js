@@ -1,22 +1,42 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function Navbar() {
   const [pathname, setPathname] = useState('/');
+  const router = useRouter();
 
   useEffect(() => {
     // Solo en cliente
     if (typeof window !== 'undefined') {
       setPathname(window.location.pathname);
+      
+      // Prefetch agresivo de todas las páginas al cargar
+      const pagesToPrefetch = ['/home', '/sets', '/events', '/gallery', '/contact'];
+      pagesToPrefetch.forEach(page => {
+        if (page !== pathname) {
+          router.prefetch(page);
+        }
+      });
     }
-  }, []);
+  }, [pathname, router]);
+
+  // Manejar navegación con feedback visual inmediato
+  const handleNavigation = (href) => {
+    setPathname(href); // Actualizar inmediatamente para feedback visual
+    router.push(href);
+  };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark fixed-top compact-navbar">
       <div className="container-fluid">
-        <Link href="/home" className="navbar-brand fw-bold d-flex align-items-center ms-0 ps-3">
+        <Link 
+          href="/home" 
+          className="navbar-brand fw-bold d-flex align-items-center ms-0 ps-3"
+          prefetch={true}
+        >
           <img
             src="/logo_blanco.png"
             alt="DJ Josepe Logo"
@@ -36,26 +56,50 @@ export default function Navbar() {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <Link href="/home" className={`nav-link spectacular-link${pathname === '/home' ? ' active' : ''}`}>
+              <Link 
+                href="/home" 
+                className={`nav-link spectacular-link${pathname === '/home' ? ' active' : ''}`}
+                prefetch={true}
+              >
                 Home
               </Link>
             </li>
 
-            {/* Enlaces a páginas separadas */}
+            {/* Enlaces a páginas separadas con prefetch para velocidad */}
             <li className="nav-item">
-              <Link href="/sets" className={`nav-link spectacular-link${pathname === '/sets' ? ' active' : ''}`}>Sets</Link>
+              <Link 
+                href="/sets" 
+                className={`nav-link spectacular-link${pathname === '/sets' ? ' active' : ''}`}
+                prefetch={true}
+              >
+                Sets
+              </Link>
             </li>
             <li className="nav-item">
-              <Link href="/events" className={`nav-link spectacular-link${pathname === '/events' ? ' active' : ''}`}>Eventos</Link>
+              <Link 
+                href="/events" 
+                className={`nav-link spectacular-link${pathname === '/events' ? ' active' : ''}`}
+                prefetch={true}
+              >
+                Eventos
+              </Link>
             </li>
           
             <li className="nav-item">
-              <Link href="/gallery" className={`nav-link spectacular-link${pathname === '/gallery' ? ' active' : ''}`}>
+              <Link 
+                href="/gallery" 
+                className={`nav-link spectacular-link${pathname === '/gallery' ? ' active' : ''}`}
+                prefetch={true}
+              >
                 Galería
               </Link>
             </li>
             <li className="nav-item">
-              <Link href="/contact" className={`nav-link spectacular-link${pathname === '/contact' ? ' active' : ''}`}>
+              <Link 
+                href="/contact" 
+                className={`nav-link spectacular-link${pathname === '/contact' ? ' active' : ''}`}
+                prefetch={true}
+              >
                 Contacto
               </Link>
             </li>

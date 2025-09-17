@@ -20,14 +20,16 @@ const nextConfig = {
   
   // Configuraciones experimentales consolidadas
   experimental: {
-    optimizeCss: isProduction, // Solo optimizar CSS en producción
     scrollRestoration: true,
   },
+  
+  // Optimizaciones de rendimiento simplificadas
+  compress: true,
   
   // Webpack optimizations solo para desarrollo
   webpack: (config, { dev, isServer }) => {
     if (dev && isDevelopment) {
-      // Optimizaciones específicas para desarrollo
+      // Optimizaciones AGRESIVAS para desarrollo rápido
       config.cache = {
         type: 'filesystem',
         buildDependencies: {
@@ -42,20 +44,36 @@ const nextConfig = {
         ignored: ['**/node_modules', '**/.next'],
       };
       
-      // Code splitting optimizado para desarrollo
+      // Compilación más rápida - reducir chunks
       config.optimization = {
         ...config.optimization,
         splitChunks: {
           chunks: 'all',
+          maxInitialRequests: 3,
+          maxAsyncRequests: 5,
           cacheGroups: {
             vendor: {
               test: /[\\/]node_modules[\\/]/,
               name: 'vendors',
               chunks: 'all',
+              priority: 10,
             },
           },
         },
       };
+
+      // Resolver más rápido
+      config.resolve = {
+        ...config.resolve,
+        symlinks: false,
+        cacheWithContext: false,
+      };
+
+      // Compilación incremental más agresiva - removido incrementalCache (no válido en esta versión)
+      // config.experiments = {
+      //   ...config.experiments,
+      //   incrementalCache: true,
+      // };
     }
     
     return config;

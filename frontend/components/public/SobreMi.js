@@ -91,7 +91,7 @@ export default function SobreMi() {
                       <h4 className="text-warning mb-3">⚡ Tecno experimental (2023–2024)</h4>
                       <p>
                         A medida que fui ganando confianza, me adentré en terrenos más tech house y progressive house, experimentando con sonidos más industriales y atmosféricos.
-                        En esta fase probé cosas nuevas y un poco más oscuras; por ejemplo, en "Brutal Session TECH HOUSE 126 BPM A+" exploré un sonido techno de tintes industriales
+                        En esta fase probé cosas nuevas y un poco más oscuras; por ejemplo, en "Brutal Session TECH HOUSE 126 BPM A+" exploré un sonido techno de tintes industriales
                         que amplió mis propios límites y me enseñó mucho a nivel técnico.
                       </p>
                     </div>

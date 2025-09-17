@@ -15,7 +15,7 @@ const DashboardLayout = ({ children, showStats = true, title = 'Dashboard' }) =>
               {title}
             </h1>
             <p className="text-muted mb-0">
-              Panel de control administrativo - DJ José Pe
+              Panel de control administrativo - DJ JosePe
             </p>
           </div>
           

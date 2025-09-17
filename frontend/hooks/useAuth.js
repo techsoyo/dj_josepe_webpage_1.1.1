@@ -14,8 +14,8 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const verifySession = async () => {
       try {
-        const isValid = await authService.checkAuth();
-        setIsAuthenticated(isValid);
+        const session = await authService.verifySession();
+        setIsAuthenticated(session && session.valid);
       } catch (error) {
         setIsAuthenticated(false);
       } finally {
@@ -54,25 +54,7 @@ export function useAuth() {
   return context;
 }
 
-// This component replaces AuthGate. It checks auth state and redirects if necessary.
+// AuthGuard simplificado - ya no redirige automáticamente
 export function AuthGuard({ children }) {
-  const { isAuthenticated, loading } = useAuth();
-  const router = useRouter();
-  const pathname = usePathname();
-
-  useEffect(() => {
-    if (!loading && !isAuthenticated && pathname !== '/admin/login') {
-      router.replace('/admin/login');
-    }
-  }, [isAuthenticated, loading, router, pathname]);
-
-  if (loading) {
-    return <LoadingSpinner />;
-  }
-
-  if (!isAuthenticated && pathname !== '/admin/login') {
-    return null; // Or a loading spinner
-  }
-
   return <>{children}</>;
 }

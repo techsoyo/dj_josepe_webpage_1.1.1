@@ -32,49 +32,35 @@ export default function SessionAlert({
 
   useEffect(() => {
     const checkSessionExpiry = () => {
-      const token = authService.getToken();
-      if (!token) {
-        setShowAlert(false);
-        return;
-      }
-
-      // Check if session is expired or about to expire
-      const isExpired = authService.isSessionExpired(token);
-      if (isExpired) {
-        handleSessionExpired();
-        return;
-      }
-
-      // Calculate time remaining
-      const payload = parseJwt(token);
-      if (payload && payload.exp) {
-        const now = Math.floor(Date.now() / 1000);
-        const remaining = payload.exp - now;
-
-        setTimeRemaining(remaining);
-
-        // Show warning if within threshold
-        if (remaining <= warningThreshold && remaining > 0) {
-          setShowAlert(true);
-
-          // Auto-extend if enabled
-          if (autoExtend && remaining <= 60) { // Auto-extend when 1 minute left
-            handleExtendSession();
+      // Simplificar: solo verificar si hay sesión válida usando el método que existe
+      authService.verifySession()
+        .then(session => {
+          if (session && session.valid) {
+            // Sesión válida, ocultar alerta
+            setShowAlert(false);
+            setTimeRemaining(300); // Reset timer
+          } else {
+            // Sesión inválida o expirada
+            setShowAlert(true);
+            setTimeRemaining(0);
           }
-        } else {
-          setShowAlert(false);
-        }
-      }
+        })
+        .catch(error => {
+          console.error('Error checking session:', error);
+          // En caso de error, mostrar alerta
+          setShowAlert(true);
+          setTimeRemaining(0);
+        });
     };
 
     // Initial check
     checkSessionExpiry();
 
-    // Set up interval
-    const interval = setInterval(checkSessionExpiry, checkInterval);
+    // Set up interval - reducir frecuencia para evitar spam
+    const interval = setInterval(checkSessionExpiry, Math.max(checkInterval, 30000)); // mínimo 30 segundos
 
     return () => clearInterval(interval);
-  }, [warningThreshold, checkInterval, autoExtend]);
+  }, [checkInterval, autoExtend]);
 
   const parseJwt = (token) => {
     try {
@@ -96,13 +82,19 @@ export default function SessionAlert({
   const handleExtendSession = async () => {
     try {
       setIsExtending(true);
-      await authService.refreshToken();
-      setShowAlert(false);
-
-      // Show success message briefly
-      setTimeout(() => {
-        // Could show a toast notification here
-      }, 1000);
+      // Verificar sesión en lugar de refresh (método que existe)
+      const session = await authService.verifySession();
+      
+      if (session && session.valid) {
+        setShowAlert(false);
+        // Show success message briefly
+        setTimeout(() => {
+          // Could show a toast notification here
+        }, 1000);
+      } else {
+        // Si la sesión no es válida, redirigir al login
+        handleSessionExpired();
+      }
 
     } catch (error) {
       console.error('Failed to extend session:', error);
@@ -113,12 +105,13 @@ export default function SessionAlert({
   };
 
   const handleSessionExpired = () => {
-    authService.clearSession();
+    // Hacer logout usando el método que existe
+    authService.logout().catch(console.error);
     setShowAlert(false);
 
-    // Redirect to login
+    // Redirect to login page (la nueva URL de acceso)
     if (typeof window !== 'undefined') {
-      window.location.href = '/admin/login?expired=true';
+      window.location.href = '/dj-josepe-aqui-mando-yo?expired=true';
     }
   };
 

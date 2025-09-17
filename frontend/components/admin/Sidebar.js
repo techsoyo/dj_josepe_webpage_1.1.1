@@ -109,7 +109,7 @@ const Sidebar = ({ collapsed, onToggle }) => {
             <i className="bi bi-vinyl-fill text-warning fs-3 me-2"></i>
             {!collapsed && (
               <div>
-                <div className="fw-bold text-warning">DJ José Pe</div>
+                <div className="fw-bold text-warning">DJ Josepe</div>
                 <small className="text-muted">Admin Panel</small>
               </div>
             )}

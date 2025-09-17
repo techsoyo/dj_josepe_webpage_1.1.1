@@ -21,17 +21,18 @@ const AdminLayout = ({ children }) => {
   const checkAuthentication = async () => {
     try {
       // Usar el mismo sistema de autenticación que el resto de la app
-      const isValid = await authService.checkAuth();
+      const sessionData = await authService.verifySession();
+      const isValid = !!sessionData;
       setIsAuthenticated(isValid);
 
       if (!isValid) {
-        // Usar Next.js router en lugar de window.location
-        router.push('/admin/login');
+        // Redirigir a la página secreta del DJ en lugar de /admin/login
+        router.push('/dj-josepe-aqui-mando-yo');
       }
     } catch (error) {
       console.error('Error verificando autenticación:', error);
       setIsAuthenticated(false);
-      router.push('/admin/login');
+      router.push('/dj-josepe-aqui-mando-yo');
     } finally {
       setLoading(false);
     }

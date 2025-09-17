@@ -128,7 +128,7 @@ const SessionCleaner = () => {
         sessionStorage.clear();
         
         alert('Sesión cerrada por inactividad prolongada.');
-        window.location.href = '/admin/login';
+        window.location.href = '/dj-josepe-aqui-mando-yo';
       }
     }
   };

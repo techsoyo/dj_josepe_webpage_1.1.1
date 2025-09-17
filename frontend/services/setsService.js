@@ -1,5 +1,7 @@
 // frontend/services/setsService.js
 
+import { fetchJsonWithCache, getCacheConfig } from '../lib/cache.js';
+
 function joinUrl(base, path) {
   // Si path es absoluto, úsalo tal cual
   if (/^https?:\/\//i.test(path)) return path;
@@ -15,9 +17,19 @@ function toAbsoluteUrl(path, base) {
 }
 
 async function fetchJson(url) {
-  const res = await fetch(url, { next: { revalidate: 0 } });
-  if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
-  return res.json();
+  // En el cliente usar fetch directo para mejor performance
+  if (typeof window !== 'undefined') {
+    const response = await fetch(url, {
+      cache: 'force-cache',
+      next: { revalidate: 300 }, // 5 minutos
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status} ${response.statusText}`);
+    return response.json();
+  }
+  
+  // En el servidor usar nuestra utilidad optimizada
+  const cacheConfig = getCacheConfig('STATIC');
+  return fetchJsonWithCache(url, { next: cacheConfig });
 }
 
 /**

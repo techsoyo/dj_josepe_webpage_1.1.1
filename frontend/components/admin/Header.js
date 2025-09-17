@@ -52,11 +52,11 @@ export default function Header({
       if (onLogout) {
         await onLogout();
       }
-      router.push('/admin/login');
+      router.push('/dj-josepe-aqui-mando-yo');
     } catch (error) {
       console.error('Logout failed:', error);
       // Force redirect even if logout fails
-      router.push('/admin/login');
+      router.push('/dj-josepe-aqui-mando-yo');
     }
   };
 

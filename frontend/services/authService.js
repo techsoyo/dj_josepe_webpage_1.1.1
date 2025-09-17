@@ -1,12 +1,12 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:4000';
 
-async function login({ email, password }) {
+async function login({ password }) {
   const res = await fetch(`${API_BASE}/api/dj/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
     cache: 'no-store',
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ password }),
   });
   if (!res.ok) throw new Error((await res.json()).message || 'Login failed');
   return res.json();
@@ -31,5 +31,5 @@ async function logout() {
 }
 
 const authService = { login, verifySession, logout };
-export default authService;                 // ← **clave**
-export { login, verifySession, logout };    // (opcional)
+export default authService;
+export { login, verifySession, logout };
